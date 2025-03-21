@@ -3,8 +3,17 @@ const helmet = require('helmet');
 const app = express();
 
 
+
+
+
+
+
 // Use Helmet for security
 app.use(helmet()); // This applies Helmet as middleware
+
+//
+app.use(helmet.hidePoweredBy());
+
 
 // Other routes and middlewares
 app.use(express.static('public'));
