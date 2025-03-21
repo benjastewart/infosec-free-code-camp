@@ -6,6 +6,11 @@ const app = express();
 // Use Helmet for security
 app.use(helmet()); // This applies Helmet as middleware
 app.use(helmet.hidePoweredBy());
+app.use(helmet.frameguard(
+  { 
+    action: 'deny' 
+  }
+));
 
 
 
