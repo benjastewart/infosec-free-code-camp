@@ -22,6 +22,12 @@ app.use(helmet.hsts(
 ));
 
 app.use(helmet.dnsPrefetchControl());
+app.use(helmet.noCache());
+app.use(helmet.referrerPolicy(
+  { 
+    policy: 'same-origin' 
+  }
+));
 
 
 // DO NOT TOUCH BEYOND HERE
