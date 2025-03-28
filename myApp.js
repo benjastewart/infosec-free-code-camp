@@ -25,8 +25,10 @@ app.use(helmet.dnsPrefetchControl());
 app.use(helmet.noCache());
 app.use(helmet.referrerPolicy(
   { 
-    policy: 'same-origin' 
+    directives: {
+      defaultSrc: ["'self'"] 
   }
+}
 ));
 
 
