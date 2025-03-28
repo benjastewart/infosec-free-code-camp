@@ -21,6 +21,8 @@ app.use(helmet.hsts(
   }
 ));
 
+app.use(helmet.dnsPrefetchControl());
+
 
 // DO NOT TOUCH BEYOND HERE
 module.exports = app;
