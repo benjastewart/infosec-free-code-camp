@@ -23,14 +23,15 @@ app.use(helmet.hsts(
 
 app.use(helmet.dnsPrefetchControl());
 app.use(helmet.noCache());
-app.use(helmet.referrerPolicy(
-  { 
+app.use(
+  helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'trusted-cdn.com'],
-  }
-}
-));
+      defaultSrc: ["'self'"], // Only trust content from my site
+      scriptSrc: ["'self'", "trusted-cdn.com"], // Allow scripts from my site and the CDN
+    },
+  })
+);
+
 
 
 // DO NOT TOUCH BEYOND HERE
