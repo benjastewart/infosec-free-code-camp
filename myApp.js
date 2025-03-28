@@ -4,33 +4,56 @@ const app = express();
 
 
 // Use Helmet for security
-app.use(helmet()); // This applies Helmet as middleware
-app.use(helmet.hidePoweredBy());
-app.use(helmet.frameguard(
-  { 
-    action: 'deny' 
-  }
-));
-app.use(helmet.xssFilter());
-app.use(helmet.noSniff());
-app.use(helmet.ieNoOpen());
-app.use(helmet.hsts(
-  { 
-    maxAge: 90 * 24 * 60 * 60, 
-    force: true 
-  }
-));
+// app.use(helmet()); // This applies Helmet as middleware
+// app.use(helmet.hidePoweredBy());
+// app.use(helmet.frameguard(
+//   { 
+//     action: 'deny' 
+//   }
+// ));
+// app.use(helmet.xssFilter());
+// app.use(helmet.noSniff());
+// app.use(helmet.ieNoOpen());
+// app.use(helmet.hsts(
+//   { 
+//     maxAge: 90 * 24 * 60 * 60, 
+//     force: true 
+//   }
+// ));
 
-app.use(helmet.dnsPrefetchControl());
+app.use(helmet({
+  frameguard: {
+    action: 'deny'
+  },
+  contentSecurityPolicy: { // not part of the default helmet.use wrap-up
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "trusted-cdn.com"],
+      }
+  },
+  dnsPrefetchControl: false,
+  xssFilter: true,
+  noSniff: true,
+  ieNoOpen: true,
+  hidePoweredBy: true,
+  hsts: {
+    maxAge: 90 * 24 * 60 * 60,
+    force: true
+  },
+}))
+
+app.use(helmet.noCache()); // noCache is not part of the default helmet.use wrap-up
+
+// app.use(helmet.dnsPrefetchControl());
 app.use(helmet.noCache());
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"], // Only trust content from my site
-      scriptSrc: ["'self'", "trusted-cdn.com"], // Allow scripts from my site and the CDN
-    },
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: ["'self'"], // Only trust content from my site
+//       scriptSrc: ["'self'", "trusted-cdn.com"], // Allow scripts from my site and the CDN
+//     },
+//   })
+// );
 
 
 
